@@ -54,7 +54,7 @@ def join(left: TreeNode, val: int, right: TreeNode) -> TreeNode:
 def join_right(left: TreeNode, val: int, right: TreeNode) -> TreeNode:
     left_child_of_left_tree, val_of_left, right_child_of_left_tree = expose(left)
     if right_child_of_left_tree.height <= right.height + 1:
-        new_tree = TreeNode(val_of_left, right_child_of_left_tree.height + 1, right_child_of_left_tree, right)
+        new_tree = TreeNode(val, right_child_of_left_tree.height + 1, right_child_of_left_tree, right)
         if new_tree.height <= left_child_of_left_tree.height + 1:
             return TreeNode(val_of_left, left_child_of_left_tree.height + 1, left_child_of_left_tree, new_tree)
         return rotate_left(TreeNode(val_of_left, left_child_of_left_tree.height + 1, left_child_of_left_tree, rotate_right(new_tree)))
@@ -67,8 +67,18 @@ def join_right(left: TreeNode, val: int, right: TreeNode) -> TreeNode:
 
 
 def join_left(left: TreeNode, val: int, right: TreeNode) -> TreeNode:
-    left_child_of_right_tree, val_of_left, right_child_of_right_tree = expose(right)
-    pass
+    left_child_of_right_tree, val_of_right, right_child_of_right_tree = expose(right)
+    if left_child_of_right_tree.height <= left.height + 1:
+        new_tree = TreeNode(val, left.height + 1, left, left_child_of_right_tree)
+        if new_tree.height <= right_child_of_right_tree.height + 1:
+            return TreeNode(val_of_righ, new_tree.height + 1, new_tree, right_child_of_right_tree)
+        return rotate_right(TreeNode(val_of_right, new_tree.height + 1, rotate_left(new_tree), right_child_of_right_tree))
+
+    new_tree = join_left(left, val, left_child_of_right_tree)
+    new_tree_prime = TreeNode(val, new_tree.height + 1, new_tree, right_child_of_right_tree)
+    if new_tree.height <= right_child_of_right_tree.height + 1:
+        return new_tree_prime
+    return rotate_right(new_tree_prime)
 
 
 # This function splits a BST in two by the value of k

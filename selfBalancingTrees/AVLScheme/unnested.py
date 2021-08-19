@@ -270,5 +270,5 @@ populate_paths(joined)
 # print(joined.right.right.val)
 
 
-# draw("union", joined)
-# subprocess.call(['dot', '-Tpng', 'union.dot', '-o', 'union.png'])
+draw("union", joined)
+subprocess.call(['dot', '-Tpng', 'union.dot', '-o', 'union.png'])
